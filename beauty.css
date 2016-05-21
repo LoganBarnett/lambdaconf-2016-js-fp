@@ -1,0 +1,56 @@
+
+.type-debug {
+  background-color: blue;
+  color: white;
+}
+
+.type-info {
+  background-color: white;
+  color: black;
+}
+
+.type-warning {
+
+}
+
+.type-error {
+  background-color: red;
+  color: white;
+}
+
+.type-trace {
+
+}
+
+.source-queue-server {
+  color: blue;
+}
+
+.source-queue-worker {
+  color: orange;
+}
+
+.source-web-server {
+  color: green;
+}
+
+.worker-id-1 {
+  background-color: green;
+  color: white;
+}
+
+.worker-id-2 {
+  background-color: orange;
+  color: black;
+}
+
+.worker-id-3 {
+  background-color: blue;
+  color: white;
+}
+
+.app-container {
+  display: flex;
+  flow-direction: row;
+  justify-content: space-between;
+}

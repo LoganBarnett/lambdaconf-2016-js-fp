@@ -1,0 +1,93 @@
+[
+  {
+    "source": "web-server",
+    "text": "GET / 200",
+    "type": "info",
+    "sequence": 1
+  },
+  {
+    "source": "web-server",
+    "text": "POST /foos 200",
+    "type": "info",
+    "sequence": 2
+  },
+  {
+    "source": "web-server",
+    "text": "POST /foos 200",
+    "type": "info",
+    "sequence": 3
+  },
+  {
+    "source": "web-server",
+    "text": "POST /foos 200",
+    "type": "info",
+    "sequence": 4
+  },
+  {
+    "source": "web-server",
+    "text": "POST /foos 200",
+    "type": "info",
+    "sequence": 5
+  },
+  {
+    "source": "web-server",
+    "text": "POST /foos 200",
+    "type": "info",
+    "sequence": 6
+  },
+  {
+    "source": "queue-worker",
+    "text": "consume message",
+    "type": "info",
+    "sequence": 7,
+    "workerId": 1
+  },
+  {
+    "source": "queue-worker",
+    "text": "consume message",
+    "type": "info",
+    "sequence": 8,
+    "workerId": 2
+  },
+  {
+    "source": "queue-worker",
+    "text": "consume message",
+    "type": "info",
+    "sequence": 9,
+    "workerId": 3
+  },
+  {
+    "source": "queue-worker",
+    "text": "consume message",
+    "type": "info",
+    "sequence": 10,
+    "workerId": 2
+  },
+  {
+    "source": "queue-worker",
+    "text": "consume message",
+    "type": "info",
+    "sequence": 11,
+    "workerId": 1
+  },
+  {
+    "source": "queue-server",
+    "text": "queue now empty",
+    "type": "debug",
+    "sequence": 12
+  },
+  {
+    "source": "queue-worker",
+    "text": "consume message",
+    "type": "info",
+    "sequence": 13,
+    "workerId": 1
+  },
+  {
+    "source": "queue-worker",
+    "text": "error on message",
+    "type": "error",
+    "sequence": 14,
+    "workerId": 1
+  }
+]

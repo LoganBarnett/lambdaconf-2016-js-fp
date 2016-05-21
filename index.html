@@ -1,0 +1,159 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="beauty.css">
+    <script>
+     function fetchData() {
+       return (
+[{"source":"web-server","text":"POST /foos 200","type":"info","sequence":5},{"source":"web-server","text":"GET / 200","type":"info","sequence":1},{"source":"web-server","text":"POST /foos 200","type":"info","sequence":3},{"source":"queue-worker","text":"consume message","type":"info","sequence":7,"workerId":1},{"source":"queue-worker","text":"consume message","type":"info","sequence":8,"workerId":2},{"source":"queue-worker","text":"consume message","type":"info","sequence":10,"workerId":2},{"source":"web-server","text":"POST /foos 200","type":"info","sequence":4},{"source":"queue-server","text":"queue now empty","type":"debug","sequence":12},{"source":"queue-worker","text":"consume message","type":"info","sequence":13,"workerId":1},{"source":"web-server","text":"POST /foos 200","type":"info","sequence":6},{"source":"queue-worker","text":"consume message","type":"info","sequence":11,"workerId":1},{"source":"queue-worker","text":"consume message","type":"info","sequence":9,"workerId":3},{"source":"queue-worker","text":"error on message","type":"error","sequence":14,"workerId":1},{"source":"web-server","text":"POST /foos 200","type":"info","sequence":2}]
+       );
+    };
+    </script>
+
+    <script src="lib/babel-browser-transform.js"></script>
+    <script src="lib/ramda.js"></script>
+
+    <script type="text/babel">
+
+    let displayFp = () => {
+      let data = fetchData();
+
+      let tbody = document.getElementById('fp-body');
+      let jobsQueued = 0;
+      data.sort((a, b) => {
+        if(a.sequence > b.sequence) {
+          return 1;
+        }
+        else if(a.sequence < b.sequence) {
+          return -1;
+        }
+        else {
+          return 0;
+        }
+      });
+
+      for(let i = 0; i < data.length; ++i) {
+        let log = data[i];
+        if(typeof log.workerId == 'undefined') {
+          log.workerId = '';
+        }
+        if(log.text.match(/POST \/foos 200/)) {
+          jobsQueued++;
+        }
+        if(jobsQueued > 0 && log.text.match(/consume message/)) {
+          jobsQueued--;
+        }
+
+        let sourceClass = 'source-' + log.source;
+        let typeClass = 'type-' + log.type;
+        let workerClass = 'worker-id-' + log.workerId;
+        let tr = document.createElement('tr');
+        tr.innerHTML =
+        '<td class="' + sourceClass + '">' + log.source + '</td>' +
+        '<td>' + log.sequence + '</td>' +
+        '<td class="' + typeClass + '">' + log.type + '</td>' +
+        '<td>' + jobsQueued + '</td>' +
+        '<td class="' + workerClass + '">' + log.workerId + '</td>' +
+        '<td>' + log.text + '</td>'
+        ;
+
+        tbody.appendChild(tr);
+      }
+    };
+
+    displayFp();
+
+    </script>
+
+    <script type="text/babel">
+
+    let displayImp = () => {
+      let data = fetchData();
+
+      let tbody = document.getElementById('imperative-body');
+      let jobsQueued = 0;
+      data.sort((a, b) => {
+        if(a.sequence > b.sequence) {
+          return 1;
+        }
+        else if(a.sequence < b.sequence) {
+          return -1;
+        }
+        else {
+          return 0;
+        }
+      });
+
+      for(let i = 0; i < data.length; ++i) {
+        let log = data[i];
+        if(typeof log.workerId == 'undefined') {
+          log.workerId = '';
+        }
+        if(log.text.match(/POST \/foos 200/)) {
+          jobsQueued++;
+        }
+        if(jobsQueued > 0 && log.text.match(/consume message/)) {
+          jobsQueued--;
+        }
+
+        let sourceClass = 'source-' + log.source;
+        let typeClass = 'type-' + log.type;
+        let workerClass = 'worker-id-' + log.workerId;
+        let tr = document.createElement('tr');
+        tr.innerHTML =
+        '<td class="' + sourceClass + '">' + log.source + '</td>' +
+        '<td>' + log.sequence + '</td>' +
+        '<td class="' + typeClass + '">' + log.type + '</td>' +
+        '<td>' + jobsQueued + '</td>' +
+        '<td class="' + workerClass + '">' + log.workerId + '</td>' +
+        '<td>' + log.text + '</td>'
+        ;
+
+        tbody.appendChild(tr);
+      }
+    };
+
+    displayImp();
+
+    </script>
+  </head>
+  <body>
+    <div class="app-container">
+      <div class="result">
+        <h2>fp results</h2>
+        <table data-id="fp-result">
+          <thead>
+            <tr>
+              <th>source</th>
+              <th>timestamp</th>
+              <th>type</th>
+              <th>result queue size</th>
+              <th>worker id</th>
+              <th>message</th>
+            </tr>
+          </thead>
+          <tbody id="fp-body">
+          </tbody>
+        </table>
+      </div>
+
+      <div class="result">
+        <h2>imperative results</h2>
+        <table data-id="result">
+          <thead>
+            <tr>
+              <th>source</th>
+              <th>timestamp</th>
+              <th>type</th>
+              <th>result queue size</th>
+              <th>worker id</th>
+              <th>message</th>
+            </tr>
+          </thead>
+          <tbody id="imperative-body">
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </body>
+</html>
